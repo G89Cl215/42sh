@@ -6,7 +6,7 @@
 /*   By: baavril <baavril@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/06 20:52:32 by baavril           #+#    #+#             */
-/*   Updated: 2020/02/29 19:11:01 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 12:28:04 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static int		test_integers(char **argv, int cmp1, int cmp2)
 	{
 		ft_strdel(&cmp12);
 		ft_strdel(&cmp21);
-		ft_printf("42sh: test: %s: integer expression expected\n", argv[0]);
+		ft_dprintf(2, "42sh: test: %s: integer expression expected\n", argv[0]);
 		return (E_ERROR);
 	}
 	else if ((int)ft_strlen(argv[2]) != (int)ft_strlen(cmp21))
 	{
 		ft_strdel(&cmp12);
 		ft_strdel(&cmp21);
-		ft_printf("42sh: test: %s: integer expression expected\n", argv[2]);
+		ft_dprintf(2, "42sh: test: %s: integer expression expected\n", argv[2]);
 		return (E_ERROR);
 	}
 	ft_strdel(&cmp12);
