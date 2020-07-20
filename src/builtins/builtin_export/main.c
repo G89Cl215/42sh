@@ -6,7 +6,7 @@
 /*   By: bprunev <bprunev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 16:21:48 by bprunev           #+#    #+#             */
-/*   Updated: 2020/07/15 18:53:11 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 12:38:58 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "libft.h"
 
 extern struct s_svar	*g_svar;
+extern char				*g_progname;
 
 void					ft_prtsrtlst(void)
 {
@@ -40,8 +41,8 @@ int						export_opt(char *opt)
 		ft_prtsrtlst();
 		return (SUCCESS);
 	}
-	ft_printf("42sh: export: %s: invalid option\nexport: usage: export -p\n",
-	opt);
+	ft_dprintf(2, "%s: export: %s: invalid option\nexport: usage: export -p\n",
+															g_progname, opt);
 	return (2);
 }
 
