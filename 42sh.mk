@@ -6,7 +6,7 @@
 #    By: bprunevi <bprunevi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/04 15:22:51 by bprunevi          #+#    #+#              #
-#    Updated: 2020/07/13 17:37:37 by tgouedar         ###   ########.fr        #
+#    Updated: 2020/07/20 13:22:23 by tgouedar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -196,6 +196,7 @@ SOURCES			:=		transversal/program/main.c \
 						builtins/builtin_fc/ft_execute.c \
 						builtins/builtin_fc/fc_no_option.c \
 						builtins/builtin_fc/ft_parser.c \
+						builtins/builtin_fc/ft_str_exist.c \
 						builtins/builtin_export/main.c \
 						builtins/builtin_export/tools.c \
 						builtins/builtin_export/var_checker.c \

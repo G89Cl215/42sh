@@ -6,7 +6,7 @@
 /*   By: yberramd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 15:06:39 by yberramd          #+#    #+#             */
-/*   Updated: 2020/07/13 18:51:39 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 13:20:55 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		ft_fc(char **option, char **argv);
 int		ft_strisnbr(char *str);
 int		ft_parser(int argc, char **argv, char *optstring,
 						char **option);
+int		str_exist(char **argv);
 void	ft_arg_r(int i, int max);
 int		f_arg_nbr(char **argv, int max, int reset);
 void	ft_number(int nbr, int nbr2, int max);

@@ -6,34 +6,26 @@
 /*   By: tgouedar <tgouedar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:30:57 by tgouedar          #+#    #+#             */
-/*   Updated: 2020/07/13 19:09:13 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 13:20:57 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_fc.h"
 
-static int		str_exist(char **argv)
-{
-	char	*cmd;
+/*
+**  Any horrible naming in this file comes from a 80+ line function I had to
+** split into norminette standards...
+**  I didn't code this function, I do not know what it does an I am NOT willing
+** to spend half a day finding out. so I did quick qnd messy.
+*/
 
-	history(FIRST, NULL, &cmd);
-	if (ft_strisnbr(argv[0]))
-	{
-		if (ft_strfchr(argv[1], cmd))
-			return (0);
-		while (history(FORWARD, NULL, &cmd) != 2)
-			if (ft_strfchr(argv[1], cmd))
-				return (0);
-	}
-	else
-	{
-		if (ft_strfchr(argv[0], cmd))
-			return (0);
-		while (history(FORWARD, NULL, &cmd) != 2)
-			if (ft_strfchr(argv[0], cmd))
-				return (0);
-	}
-	return (1);
+static void			ft_next_history(int flag, t_fc *explorer)
+{
+	history(flag, NULL, &(explorer->cmd));
+	if (flag == FORWARD)
+		(explorer->i)--;
+	else if (flag == BACKWARD)
+		(explorer->i)++;
 }
 
 static void			ft_plop_un(char **argv, t_fc *explorer, int max, int nbr)
@@ -43,21 +35,12 @@ static void			ft_plop_un(char **argv, t_fc *explorer, int max, int nbr)
 		history(LAST, NULL, &(explorer->cmd));
 		while ((explorer->found = ft_strfchr(argv[0], explorer->cmd)) == 0
 		&& (max - explorer->i) > nbr)
-		{
-			history(BACKWARD, NULL, &(explorer->cmd));
-			(explorer->i)++;
-		}
+			ft_next_history(BACKWARD, explorer);
 		while (explorer->found == 0 && ft_strfchr(argv[0], explorer->cmd) == 0)
-		{
-			history(BACKWARD, NULL, &(explorer->cmd));
-			explorer->i++;
-		}
+			ft_next_history(BACKWARD, explorer);
 	}
 	else if (explorer->found > 0 && (max - explorer->i) > nbr)
-	{
-		history(BACKWARD, NULL, &(explorer->cmd));
-		(explorer->i)++;
-	}
+		ft_next_history(BACKWARD, explorer);
 	else if (explorer->found == 0 && (max - explorer->i) < nbr)
 	{
 		history(FORWARD, NULL, &(explorer->cmd));
@@ -72,10 +55,7 @@ static void			ft_plop_zero(char **argv, t_fc *explorer, int max, int nbr)
 		history(LAST, NULL, &(explorer->cmd));
 		while ((explorer->found = ft_strfchr(argv[1], explorer->cmd)) == 0
 		&& (max - explorer->i) > nbr)
-		{
-			history(BACKWARD, NULL, &(explorer->cmd));
-			(explorer->i)++;
-		}
+			ft_next_history(BACKWARD, explorer);
 		if (explorer->found == 1)
 		{
 			explorer->found = max - explorer->i;
@@ -85,16 +65,12 @@ static void			ft_plop_zero(char **argv, t_fc *explorer, int max, int nbr)
 		}
 	}
 	else if (explorer->found > 0 && (max - explorer->i) < explorer->found)
-	{
-		history(FORWARD, NULL, &(explorer->cmd));
-		(explorer->i)--;
-	}
+		ft_next_history(FORWARD, explorer);
 	else if (explorer->found == 0)
 	{
 		if (ft_strfchr(argv[1], explorer->cmd) != 0)
 			return ;
-		history(BACKWARD, NULL, &(explorer->cmd));
-		(explorer->i)++;
+		ft_next_history(BACKWARD, explorer);
 	}
 }
 
@@ -114,7 +90,7 @@ static int			ft_set_arg_nbr(char **argv, int max)
 	return (nbr);
 }
 
-int				f_arg_nbr(char **argv, int max, int reset)
+int					f_arg_nbr(char **argv, int max, int reset)
 {
 	int				nbr;
 	static t_fc		explorer = {0, 0, NULL};
