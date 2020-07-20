@@ -6,7 +6,7 @@
 /*   By: bprunevi <bprunevi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 13:16:47 by bprunevi          #+#    #+#             */
-/*   Updated: 2020/07/08 17:53:00 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 15:46:34 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ int	i_andgreat(t_elem left, t_elem right)
 	left.c = ft_strdup("1");
 	rtn = i_great(left, right);
 	if (rtn > 0)
-	{
-		*left.c = '2';
-		rtn = i_great(left, right);
-	}
+		dup2(1, 2);
 	ft_strdel(&left.c);
 	return (rtn);
 }
