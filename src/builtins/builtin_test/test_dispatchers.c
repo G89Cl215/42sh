@@ -6,7 +6,7 @@
 /*   By: baavril <baavril@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/06 20:52:32 by baavril           #+#    #+#             */
-/*   Updated: 2020/07/06 13:05:06 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 12:20:57 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ t_test_d_opt	g_test_d_opt[] =
 
 static int		ft_string_tests(int argc, char **argv)
 {
-	if (**argv != '\0' && argc == 1)
-		return (E_SUCCESS);
+	if (argc == 1)
+		return (E_FAILURE);
 	else if (((ft_strcmp(argv[1], "=") == E_SUCCESS)
 	|| (ft_strcmp(argv[1], "==") == E_SUCCESS)) && argc == 3)
 		return ((ft_strcmp(argv[0], argv[2]) == 0) ? E_SUCCESS : E_FAILURE);
@@ -70,11 +70,11 @@ static int		ft_string_tests(int argc, char **argv)
 	else if ((ft_strcmp(argv[1], "<") == E_SUCCESS) && argc == 3)
 		return ((ft_strcmp(argv[0], argv[2]) > 0) ? E_SUCCESS : E_FAILURE);
 	else if (argc == 2)
-		ft_printf("42sh: test: %s: unary operator expected\n", argv[0]);
+		ft_dprintf(2, "42sh: test: %s: unary operator expected\n", argv[0]);
 	else if (argc == 3)
-		ft_printf("42sh: test: %s: binary operator expected\n", argv[1]);
+		ft_dprintf(2, "42sh: test: %s: binary operator expected\n", argv[1]);
 	else
-		ft_printf("42sh: test: too many arguments\n");
+		ft_dprintf(2, "42sh: test: too many arguments\n");
 	return (E_ERROR);
 }
 
@@ -110,9 +110,10 @@ static int		ft_dispatch_d_option(char **argv, int nbr_opt, int argc)
 			i++;
 		}
 	}
-	(argc < 4)
-	? ft_printf("42sh: test: %s: binary operator expected\n", argv[1])
-	: ft_printf("42sh: test: too many arguments\n");
+	if (argc < 4)
+		ft_dprintf(2, "42sh: test: %s: binary operator expected\n", argv[1]);
+	else
+		ft_dprintf(2, "42sh: test: too many arguments\n");
 	return (E_ERROR);
 }
 
@@ -135,7 +136,7 @@ static int		ft_dispatch_s_option(char **argv, int nbr_opt)
 			i++;
 		}
 	}
-	ft_printf("42sh: test: %s: unary operator expected\n", argv[0]);
+	ft_dprintf(2, "42sh: test: %s: unary operator expected\n", argv[0]);
 	return (E_ERROR);
 }
 
