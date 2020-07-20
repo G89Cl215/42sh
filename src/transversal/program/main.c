@@ -6,7 +6,7 @@
 /*   By: abarthel <abarthel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 18:32:13 by abarthel          #+#    #+#             */
-/*   Updated: 2020/07/20 13:11:45 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 14:28:40 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #include "path.h"
 
 int					g_ppid;
+int					g_pid;
 int					g_retval;
 extern int			g_mode;
 extern int			g_alias_treated;
@@ -69,6 +70,7 @@ static int	ft_shell_init(void)
 {
 	extern char		**environ;
 
+	g_pid = getpid();
 	g_ppid = getppid();
 	set_termcaps(TC_SAVE);
 	tcsetpgrp(STDIN_FILENO, getpid());

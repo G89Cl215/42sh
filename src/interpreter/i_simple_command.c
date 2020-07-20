@@ -6,7 +6,7 @@
 /*   By: bprunevi <bprunevi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 14:43:35 by bprunevi          #+#    #+#             */
-/*   Updated: 2020/07/17 15:12:43 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 14:48:18 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,26 @@
 
 char		**g_argv;
 extern int	g_retval;
+extern int	g_pid;
 
 int		i_prefix(t_elem left, t_elem right)
 {
 	char	*assig_word;
+	char	*value;
 
 	assig_word = ft_strdup(left.c);
 	expansions_treatment(&(assig_word), 0);
-	if (checkvarlst(assig_word))
+	if (g_pid != getpid())
+	{
+		value = ft_strchr(assig_word, '=');
+		*(value++) = '\0';
+		ft_setenv(assig_word, value);
+	}
+	else if (checkvarlst(assig_word))
 		setenvnod(newnodshell(assig_word, 0));
+	ft_strdel(&assig_word);
 	if (right.v)
 		right.v->f(right.v->left, right.v->right);
-	ft_strdel(&assig_word);
 	return (0);
 }
 
