@@ -6,7 +6,7 @@
 /*   By: tgouedar <tgouedar@student42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 01:11:39 by tgouedar          #+#    #+#             */
-/*   Updated: 2020/07/09 01:25:56 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 17:38:08 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int				expand_tree(t_node *node, int fork_builtin)
 		expand_tree_right(node, node_type, fork_builtin);
 	if (node->f == i_exec)
 	{
+		expansions_treatment(&(node->left.c), 0);
 		if (is_a_builtin(node->left.c))
 		{
 			if (!fork_builtin)
@@ -98,7 +99,10 @@ int				expand_args(t_node *node)
 	if (node->left.c || node->left.v)
 	{
 		if ((node_type & 0b10))
-			expansions_treatment(&(node->left.c), 0);
+		{
+			if (node->f != i_builtin && node->f != i_exec)
+				expansions_treatment(&(node->left.c), 0);
+		}
 		else
 			expand_args(node->left.v);
 	}
