@@ -6,7 +6,7 @@
 /*   By: baavril <baavril@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/06 20:52:32 by baavril           #+#    #+#             */
-/*   Updated: 2020/07/10 15:43:18 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:53:01 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ typedef struct		s_symexp
 	int				(*expand)(char **);
 }					t_symexp;
 
-struct				s_quoted
+typedef struct		s_quoted
 {
 	int				expand;
 	char			*token;
 	struct s_quoted	*next;
-};
+}					t_quoted;
 
 typedef struct		s_expand
 {
@@ -137,7 +137,6 @@ size_t				maths_len(char *token);
 
 int					getquotelim(char *str);
 int					isexpandable(char *str, int lim);
-int					counter_quoted_words(char *str);
 char				*dupbtwq(char *str);
 char				*dupbtwqlim(char *str, int lim);
 char				**ft_expsplit(char *str);
@@ -145,8 +144,7 @@ int					back_slashed(char **tokens);
 char				*set_slash(char **tokens, int flag);
 char				*set_back_slash(char *tokens, int nb);
 char				*getbtw(char *tokens, int type, int flag);
-char				*token_quotes_generator(char *str);
-void				setquotenod(struct s_quoted *new_back);
+t_quoted			*token_quotes_generator(char *str);
 
 int					identifier(char *token);
 

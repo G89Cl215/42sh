@@ -6,7 +6,7 @@
 /*   By: baavril <baavril@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 16:40:47 by baavril           #+#    #+#             */
-/*   Updated: 2020/07/13 13:50:29 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:37:52 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,17 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-struct s_quoted	*g_quoted;
 
-static void		free_quoted_token_lst(void)
+static void		free_quoted_token_lst(struct s_quoted *quoted_tokens)
 {
 	struct s_quoted *tmp;
 
-	while (g_quoted)
+	while (quoted_tokens)
 	{
-		ft_strdel(&(g_quoted->token));
-		tmp = g_quoted->next;
-		free(g_quoted);
-		g_quoted = tmp;
+		ft_strdel(&(quoted_tokens->token));
+		tmp = quoted_tokens->next;
+		free(quoted_tokens);
+		quoted_tokens = tmp;
 	}
 }
 
@@ -51,10 +50,11 @@ static int		quoted_linker(struct s_quoted *voyager, char **tokens,
 static int		expansions_quoted_treatment(char **tokens,
 													char **splitok, int flag)
 {
-	struct s_quoted		*voyager;
+	t_quoted		*quoted_tokens;
+	t_quoted		*voyager;
 
-	token_quotes_generator(*tokens);
-	voyager = g_quoted;
+	quoted_tokens = token_quotes_generator(*tokens);
+	voyager = quoted_tokens;
 	ft_strdel(tokens);
 	while (voyager)
 	{
@@ -66,6 +66,7 @@ static int		expansions_quoted_treatment(char **tokens,
 			quoted_linker(voyager, tokens, splitok, flag);
 		voyager = voyager->next;
 	}
+	free_quoted_token_lst(quoted_tokens);
 	return (0);
 }
 
@@ -83,10 +84,7 @@ int				expansions_treatment(char **tokens, int flag)
 	if (!flag && **tokens == TILDE)
 		tilde_exp(tokens);
 	if (*tokens && (ft_isin(DQUOTES, *tokens) || ft_isin(SQUOTES, *tokens)))
-	{
 		expansions_quoted_treatment(tokens, splitok, flag);
-		free_quoted_token_lst();
-	}
 	else
 	{
 		if (!(splitok = ft_expsplit(*tokens)))

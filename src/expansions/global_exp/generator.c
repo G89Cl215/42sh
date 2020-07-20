@@ -6,7 +6,7 @@
 /*   By: baavril <baavril@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/06 20:52:32 by baavril           #+#    #+#             */
-/*   Updated: 2020/07/13 13:51:50 by tgouedar         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:53:39 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,15 @@
 #include "expansions.h"
 #include "libft.h"
 
-struct s_quoted		*g_quoted;
-
-static int			ft_delimit_quoted_token(char *str, int *j)
+static t_quoted			*ft_delimit_quoted_token(char *str, int *j)
 {
 	int					lim;
 	int					plus;
-	struct s_quoted		*q_lst;
+	t_quoted			*q_lst;
 
 	plus = 0;
 	if (!(q_lst = (struct s_quoted*)malloc(sizeof(struct s_quoted))))
-		return (0);
+		return (NULL);
 	q_lst->expand = (str[*j] == '\'');
 	q_lst->next = NULL;
 	lim = getquotelim(&str[*j]);
@@ -39,30 +37,31 @@ static int			ft_delimit_quoted_token(char *str, int *j)
 	}
 	q_lst->token = dupbtwqlim(&str[*j], lim + plus);
 	*j += lim + 1;
-	setquotenod(q_lst);
-	return (0);
+	return (q_lst);
 }
 
-static int			token_reconstitutor(char *str, int k)
+t_quoted				*token_quotes_generator(char *str)
 {
-	int	i;
-	int	j;
+	t_quoted		*quoted_tokens;
+	t_quoted		*voyager;
+	int				len;
+	int				j;
 
-	i = 0;
 	j = 0;
-	while (i < k)
+	quoted_tokens = NULL;
+	len = ft_strlen(str);
+	while (j < len)
 	{
-		ft_delimit_quoted_token(str, &j);
-		++i;
+		if (!quoted_tokens)
+		{
+			quoted_tokens = ft_delimit_quoted_token(str, &j);
+			voyager = quoted_tokens;
+		}
+		else
+		{
+			voyager->next = ft_delimit_quoted_token(str, &j);
+			voyager = voyager->next;
+		}
 	}
-	return (0);
-}
-
-char				*token_quotes_generator(char *str)
-{
-	int		k;
-
-	k = counter_quoted_words(str);
-	token_reconstitutor(str, k);
-	return (str);
+	return (quoted_tokens);
 }
